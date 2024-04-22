@@ -1,15 +1,34 @@
 import { Link } from "react-router-dom";
 import Navbar from "../shared/Navbar/Navbar";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import { Result } from "postcss";
 
 const Register = () => {
+    const { createUser } =useContext(AuthContext);
 
-    const handleRegister = e =>{
+
+    const handleRegister = e => {
         e.preventDefault();
         console.log(e.currentTarget);
-        const form = new FormData(e.currentTarget);
-        console.log(form.get('email,password'))
 
-         
+        const form = new FormData(e.currentTarget);
+        const name = form.get('name');
+        const photo = form.get('photo');
+        const email = form.get('email');
+        const password = form.get('password');
+
+        console.log(name, photo, email, password);
+
+        createUser(email,password)
+        .then(result =>{
+            console.log(result.user)
+        })
+        .catch(error => {
+            console.error(error)
+        })
+
+
     }
 
 
@@ -28,13 +47,13 @@ const Register = () => {
                     <label className="label">
                         <span className="label-text">Photo URL</span>
                     </label>
-                    <input type="text" placeholder="Photo URL" name="Photo URL" className="input input-bordered" required />
+                    <input type="text" placeholder="Photo URL" name="photo " className="input input-bordered" required />
                 </div>
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Email</span>
                     </label>
-                    <input type="email" placeholder="email" name="Email" className="input input-bordered" required />
+                    <input type="email" placeholder="email" name="email" className="input input-bordered" required />
                 </div>
                 <div className="form-control">
                     <label className="label">
